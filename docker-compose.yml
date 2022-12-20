@@ -3,7 +3,7 @@ services:
   inception_nginx :
     build :
       context: ./srcs/nginx
-    image: nginx
+    image: inception_nginx_img
     volumes:
       - inception_wp_content_vol:/var/www/html/wordpress
     container_name : inception_nginx
@@ -11,8 +11,29 @@ services:
       - "443:443"
     env_file: .env
 
+  inception_wp : 
+    build : 
+      context: ./srcs/WP
+    image: inception_wp_img
+    volumes:
+      - inception_wp_content_vol:/var/www/html/wordpress
+    container_name: inception_wp
+    env_file: .env
+
+  inception_mdb :
+    build: 
+      context: ./srcs/mariadb
+    image: inception_mdb_image
+    volumes: 
+      - inception_mdb_db:/var/lib/mysql
+    container_name: inception_mdb
+    ports:
+      - "3306:3306"
+    env_file: .env
+
 volumes:
   inception_wp_content_vol:
+  inception_mdb_db:
 
 networks:
   default :
