@@ -1,6 +1,8 @@
 services:
 
   inception_nginx :
+    depends_on:
+      - inception_mdb
     build :
       context: ./srcs/nginx
     image: inception_nginx_img
@@ -10,6 +12,7 @@ services:
     ports:
       - "443:443"
     env_file: .env
+    restart: unless-stopped
 
   inception_wp : 
     build : 
@@ -20,16 +23,19 @@ services:
     container_name: inception_wp
     env_file: .env
 
+
   inception_mdb :
     build: 
       context: ./srcs/mariadb
     image: inception_mdb_image
-    volumes: 
-      - inception_mdb_db:/var/lib/mysql
+    #volumes: 
+    #  - inception_mdb_db:/var/lib/mysql
     container_name: inception_mdb
     ports:
-      - "3306:3306"
+      - "3301:3306"
     env_file: .env
+    restart: unless-stopped
+
 
 volumes:
   inception_wp_content_vol:
