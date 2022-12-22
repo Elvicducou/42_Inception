@@ -1,35 +1,48 @@
+version: '3'
 services:
 
   inception_nginx :
     depends_on:
       - inception_mdb
+      - inception_wp
     build :
       context: ./srcs/nginx
     image: inception_nginx_img
     volumes:
-      - inception_wp_content_vol:/var/www/html/wordpress
+      - inception_wp_content_vol:/var/www/html/
     container_name : inception_nginx
     ports:
       - "443:443"
     env_file: .env
     restart: unless-stopped
 
-  inception_wp : 
-    build : 
+  inception_wp:
+    depends_on: 
+      - inception_mdb
+    build:
       context: ./srcs/WP
+      args:
+        WPDB_NAME: $WORDPRESS_DB_NAME
+        WPDB_USERNAME: $WORDPRESS_DB_USER
+        WPDB_HOST: $WORDPRESS_DB_HOST
+        WPDB_PASS: $WORDPRESS_DB_PASSWORD
     image: inception_wp_img
     volumes:
-      - inception_wp_content_vol:/var/www/html/wordpress
+      - inception_wp_content_vol:/var/www/html/
     container_name: inception_wp
     env_file: .env
-
 
   inception_mdb :
     build: 
       context: ./srcs/mariadb
-    image: inception_mdb_image
-    #volumes: 
-    #  - inception_mdb_db:/var/lib/mysql
+      args: 
+        WPDB_NAME: $WORDPRESS_DB_NAME
+        WPDB_USERNAME: $WORDPRESS_DB_USER
+        WPDB_HOST: $WORDPRESS_DB_HOST
+        WPDB_PASS: $WORDPRESS_DB_PASSWORD
+    image: inception_mdb_img
+    volumes: 
+      - inception_mdb_db:/var/lib/mysql
     container_name: inception_mdb
     ports:
       - "3306:3306"

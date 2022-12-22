@@ -1,11 +1,20 @@
 FROM debian:buster
+ARG WPDB_NAME
+ARG WPDB_USERNAME
+ARG WPDB_PASS
+ARG WPDB_HOST
+ENV WORDPRESS_DB_NAME $WPDB_NAME
+ENV WORDPRESS_DB_HOST $WPDB_HOST
+ENV WORDPRESS_DB_PASSWORD $WPDB_PASS
+ENV WORDPRESS_DB_USER $WPDB_USERNAME
 WORKDIR /
 
 RUN apt-get update -y && apt-get upgrade -y
 RUN apt-get install -y mariadb-server dumb-init
-RUN service mysql start && mysql -u root -e "CREATE DATABASE wordpress_db; \
-	GRANT ALL ON wordpress_db.* TO 'wordpress_user'@'localhost' IDENTIFIED BY 'password'; \
-	FLUSH PRIVILEGES;"
+RUN service mysql start && mysql -u root -e "CREATE DATABASE ${WORDPRESS_DB_NAME} ; GRANT ALL ON $WORDPRESS_DB_NAME.* TO '$WORDPRESS_DB_USER'@'%' IDENTIFIED BY '$WORDPRESS_DB_PASSWORD' WITH GRANT OPTION ; FLUSH PRIVILEGES ;"
+RUN service mysql stop
+COPY ./config_files/my.cnf /etc/mysql/my.cnf
+RUN service mysql start
 CMD ["mysqld"]
 EXPOSE 3306
 RUN echo "MDB CONTAINER READY"
