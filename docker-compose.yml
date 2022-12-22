@@ -32,7 +32,7 @@ services:
     #  - inception_mdb_db:/var/lib/mysql
     container_name: inception_mdb
     ports:
-      - "3301:3306"
+      - "3306:3306"
     env_file: .env
     restart: unless-stopped
 

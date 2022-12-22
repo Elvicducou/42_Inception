@@ -3,9 +3,10 @@ WORKDIR /
 
 RUN apt update -y && apt upgrade -y
 RUN apt-get update -y && apt-get upgrade -y
-RUN apt install -y curl php php-fpm mariadb-client
-RUN curl -O https://wordpress.org/latest.tar.gz
-RUN	tar -xvf latest.tar.gz
-RUN rm -rf latest.tar.gz
+RUN apt install -y curl php php-fpm mariadb-client less
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN chmod +x wp-cli.phar
+RUN mv wp-cli.phar /usr/local/bin/wp
+RUN wp cli update
 EXPOSE 80
 RUN echo "WP CONTAINER READY"
