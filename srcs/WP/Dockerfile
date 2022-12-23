@@ -1,14 +1,5 @@
 FROM debian:buster
 
-ARG WPDB_NAME
-ARG WPDB_USERNAME
-ARG WPDB_PASS
-ARG WPDB_HOST
-ENV WORDPRESS_DB_NAME $WPDB_NAME
-ENV WORDPRESS_DB_HOST $WPDB_HOST
-ENV WORDPRESS_DB_PASSWORD $WPDB_PASS
-ENV WORDPRESS_DB_USER $WPDB_USERNAME
-
 RUN apt update -y && apt upgrade -y
 RUN apt-get update -y && apt-get upgrade -y
 RUN apt install -y curl php php-fpm mariadb-client less php-mysql

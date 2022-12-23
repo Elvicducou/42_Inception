@@ -21,11 +21,6 @@ services:
       - inception_mdb
     build:
       context: ./srcs/WP
-      args:
-        WPDB_NAME: $WORDPRESS_DB_NAME
-        WPDB_USERNAME: $WORDPRESS_DB_USER
-        WPDB_HOST: $WORDPRESS_DB_HOST
-        WPDB_PASS: $WORDPRESS_DB_PASSWORD
     image: inception_wp_img
     volumes:
       - inception_wp_content_vol:/var/www/html/
@@ -36,17 +31,13 @@ services:
     build: 
       context: ./srcs/mariadb
       args: 
-        WPDB_NAME: $WORDPRESS_DB_NAME
-        WPDB_USERNAME: $WORDPRESS_DB_USER
-        WPDB_HOST: $WORDPRESS_DB_HOST
-        WPDB_PASS: $WORDPRESS_DB_PASSWORD
+        WPDB_NAME: $MYSQL_DATABASE
+        WPDB_USERNAME: $MYSQL_USER
+        WPDB_PASS: $MYSQL_PASSWORD
     image: inception_mdb_img
     volumes: 
       - inception_mdb_db:/var/lib/mysql
     container_name: inception_mdb
-    ports:
-      - "3306:3306"
-    env_file: .env
     restart: unless-stopped
 
 

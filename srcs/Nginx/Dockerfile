@@ -10,7 +10,5 @@ RUN openssl x509 -req -days 365 -in /etc/ssl/csr/csr.pem -signkey /etc/ssl/priva
 RUN mkdir -p ./config
 COPY ./config_files/inception_nginx.conf ./config/
 RUN cp ./config/inception_nginx.conf /etc/nginx/conf.d
-#RUN rm /var/wwww/html/index.nginx-debian.html
 CMD ["nginx", "-g",  "daemon off;"]
 EXPOSE 443
-RUN echo "NGINX CONTAINER READY"
