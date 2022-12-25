@@ -6,7 +6,7 @@ services:
       - inception_mdb
       - inception_wp
     build :
-      context: ./requirements/nginx
+      context: ./requirements/Nginx
     image: inception_nginx_img
     volumes:
       - inception_wp_content_vol:/var/www/html/
@@ -29,7 +29,7 @@ services:
 
   inception_mdb :
     build: 
-      context: ./requirements/mariadb
+      context: ./requirements/MariaDB
       args: 
         WPDB_NAME: $MYSQL_DATABASE
         WPDB_USERNAME: $MYSQL_USER
