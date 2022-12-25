@@ -30,6 +30,7 @@ services:
       - inception_network
     container_name: inception_wp
     env_file: .env
+    restart: unless-stopped
 
   inception_mdb :
     build: 
