@@ -6,7 +6,7 @@
 #    By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/25 19:31:49 by vducoulo          #+#    #+#              #
-#    Updated: 2022/12/25 21:14:31 by vducoulo         ###   ########.fr        #
+#    Updated: 2022/12/25 22:13:44 by vducoulo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,8 @@ up:
 	docker compose -f ./srcs/docker-compose.yml up
 
 build:
+	# mkdir -p /home/vducoulo/data/maria_db 2>>/dev/null
+	# mkdir -p /home/vducoulo/data/wordpress 2>>/dev/null
 	mkdir -p /Users/victorducoulombier/Documents/dev/42/inception_volumes_tmp/maria_db 2>>/dev/null
 	mkdir -p /Users/victorducoulombier/Documents/dev/42/inception_volumes_tmp/wordpress 2>>/dev/null
 	docker compose -f ./srcs/docker-compose.yml build
