@@ -54,7 +54,7 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /Users/victorducoulombier/Documents/dev/42/inception_volumes_tmp/wordpress
+      device: /home/vducoulo/data/wordpress
 
   inception_mdb_db:
     driver: local
@@ -62,7 +62,7 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /Users/victorducoulombier/Documents/dev/42/inception_volumes_tmp/maria_db
+      device: /home/vducoulo/data/maria_db
 
 networks:
   inception_network:
