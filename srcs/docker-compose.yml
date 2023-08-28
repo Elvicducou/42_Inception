@@ -1,69 +1,69 @@
 version: '3'
 services:
 
-  inception_nginx :
+  nginx :
     depends_on:
-      - inception_mdb
-      - inception_wp
+      - mariadb
+      - wordpress
     build :
       context: ./requirements/Nginx
-    image: inception_nginx_img
+    image: nginx
     volumes:
-      - inception_wp_content_vol:/var/www/html/
+      - worpress:/var/www/html/
     networks:
       - inception_network
-    container_name : inception_nginx
+    container_name : nginx
     ports:
       - "443:443"
     env_file: .env
     restart: unless-stopped
 
-  inception_wp:
+  wordpress:
     depends_on: 
-      - inception_mdb
+      - mariadb
     build:
       context: ./requirements/WP
-    image: inception_wp_img
+    image: wordpress
     volumes:
-      - inception_wp_content_vol:/var/www/html/
+      - wordpress:/var/www/html/
     networks:
       - inception_network
-    container_name: inception_wp
+    container_name: wordpress
     env_file: .env
     restart: unless-stopped
 
-  inception_mdb :
+  mariadb :
     build: 
       context: ./requirements/MariaDB
       args: 
         WPDB_NAME: $MYSQL_DATABASE
         WPDB_USERNAME: $MYSQL_USER
         WPDB_PASS: $MYSQL_PASSWORD
-    image: inception_mdb_img
+    image: mariadb
     volumes: 
-      - inception_mdb_db:/var/lib/mysql
+      - mariadb:/var/lib/mysql
     networks:
       - inception_network
-    container_name: inception_mdb
+    container_name: mariadb
     restart: unless-stopped
 
 
 volumes:
-  inception_wp_content_vol:
+  wordpress:
     driver: local
-    name: inception_wp_content_vol
+    name: wordpress
     driver_opts:
       type: none
       o: bind
-      device: /Users/victorducoulombier/Documents/dev/42/inception_volumes_tmp/wordpress
+      device: /home/vducoulo/data/wordpress
 
-  inception_mdb_db:
+  mariadb:
     driver: local
-    name: inception_mdb_db
+    name: mariadb
     driver_opts:
       type: none
       o: bind
-      device: /Users/victorducoulombier/Documents/dev/42/inception_volumes_tmp/maria_db
+      device: /home/vducoulo/data/mariadb
 
 networks:
   inception_network:

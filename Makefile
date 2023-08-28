@@ -6,7 +6,7 @@
 #    By: vducoulo <vducoulo@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/25 19:31:49 by vducoulo          #+#    #+#              #
-#    Updated: 2022/12/25 22:13:44 by vducoulo         ###   ########.fr        #
+#    Updated: 2023/08/28 15:01:25 by vducoulo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,8 @@ NAME = inception
 all:	$(NAME)
 
 $(NAME):
-	# mkdir -p /home/vducoulo/data/maria_db 2>>/dev/null
-	# mkdir -p /home/vducoulo/data/wordpress 2>>/dev/null
-	mkdir -p /Users/victorducoulombier/Documents/dev/42/inception_volumes_tmp/maria_db 2>>/dev/null
-	mkdir -p /Users/victorducoulombier/Documents/dev/42/inception_volumes_tmp/wordpress 2>>/dev/null
+	mkdir -p /home/vducoulo/data/mariadb 2>>/dev/null
+	mkdir -p /home/vducoulo/data/wordpress 2>>/dev/null
 	docker compose -v -f ./srcs/docker-compose.yml up --force-recreate --build -d 
 
 down:
@@ -28,27 +26,24 @@ up:
 	docker compose -f ./srcs/docker-compose.yml up
 
 build:
-	# mkdir -p /home/vducoulo/data/maria_db 2>>/dev/null
-	# mkdir -p /home/vducoulo/data/wordpress 2>>/dev/null
-	mkdir -p /Users/victorducoulombier/Documents/dev/42/inception_volumes_tmp/maria_db 2>>/dev/null
-	mkdir -p /Users/victorducoulombier/Documents/dev/42/inception_volumes_tmp/wordpress 2>>/dev/null
+	mkdir -p /home/vducoulo/data/maria_db 2>>/dev/null
+	mkdir -p /home/vducoulo/data/wordpress 2>>/dev/null
 	docker compose -f ./srcs/docker-compose.yml build
 
 cclean:	
-	@-docker container rm -f inception_nginx
-	@-docker container rm -f inception_wp
-	@-docker container rm -f inception_mdb
+	@-docker container rm -f nginx
+	@-docker container rm -f wordpress
+	@-docker container rm -f mariadb
 
 iclean:
-	@-docker rmi inception_nginx_img
-	@-docker rmi inception_mdb_img
-	@-docker rmi inception_wp_img
+	@-docker rmi nginx
+	@-docker rmi mariadb
+	@-docker rmi wordpress
 
 vclean:
-	@-docker volume rm -f inception_wp_content_vol
-	@-docker volume rm -f inception_mdb_db
-	#rm -rf /home/vducoulo/data/
-	rm -rf /Users/victorducoulombier/Documents/dev/42/inception_volumes_tmp/
+	@-docker volume rm -f wordpress
+	@-docker volume rm -f mariadb
+	rm -rf /home/vducoulo/data/
 
 fclean: cclean iclean vclean
 
